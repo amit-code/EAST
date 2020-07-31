@@ -51,24 +51,33 @@ def load_annoataion(p):
     if not os.path.exists(p):
         return np.array(text_polys, dtype=np.float32)
     with open(p, 'r') as f:
-        reader = csv.reader(f)
+        try:
+            reader = csv.reader(f)
+        except Exception as e:
+            print("reader", reader)
         #print("f",f)
         # print("reader", reader)
-        for line in reader:
-            #print("line",line)
-            label = line[-1]
-            # strip BOM. \ufeff for python3,  \xef\xbb\bf for python2
-            line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in line]
-
-            x1, y1, x2, y2, x3, y3, x4, y4 = list(map(float, line[:8]))
-            text_polys.append([[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
-            # print("text_polys", text_polys)
-            if label == '*' or label == '###':
-                text_tags.append(True)
-            else:
-                text_tags.append(False)
-            # print("text_polys", text_polys)
-            # print("text_tags", text_tags)
+        try:
+            for line in reader:
+                #print("line",line)
+                try:
+                    label = line[-1]
+                except Exception as e:
+                    print("line",line)
+                    print("label", label)
+                # strip BOM. \ufeff for python3,  \xef\xbb\bf for python2
+                line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in line]
+                x1, y1, x2, y2, x3, y3, x4, y4 = list(map(float, line[:8]))
+                text_polys.append([[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
+                # print("text_polys", text_polys)
+                if label == '*' or label == '###':
+                    text_tags.append(True)
+                else:
+                    text_tags.append(False)
+                # print("text_polys", text_polys)
+                # print("text_tags", text_tags)
+        except Exception as e:
+            print(e)
         return np.array(text_polys, dtype=np.float32), np.array(text_tags, dtype=np.bool)
 
 
@@ -613,10 +622,16 @@ def generator(input_size=512, batch_size=32,
                     print('text file {} does not exists'.format(txt_fn))
                     continue
                 #print("txt_fn", txt_fn)
-                text_polys, text_tags = load_annoataion(txt_fn)
-                # print("text_tags",text_tags)
-
-                text_polys, text_tags = check_and_validate_polys(text_polys, text_tags, (h, w))
+                try:
+                    text_polys, text_tags = load_annoataion(txt_fn)
+                    # print("text_tags",text_tags)
+                except Exception as e:
+                    print("txt_fn", txt_fn)
+                try:
+                    text_polys, text_tags = check_and_validate_polys(text_polys, text_tags, (h, w))
+                except Exception as e:
+                    print("text_polys", text_polys)
+                    print("text_tags", text_tags)
                 # if text_polys.shape[0] == 0:
                 #     continue
                 # random scale this image
