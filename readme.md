@@ -50,9 +50,9 @@ See the examples in training_samples/**
 ### Test
 run
 ```
-python eval.py --test_data_path=/tmp/images/ --gpu_list=0 --checkpoint_path=/tmp/east_icdar2015_resnet_v1_50_rbox/ \
---output_dir=/tmp/
+python eval.py --test_data_path=/content/EAST/tmp/images/ --gpu_list=0 --checkpoint_path=/content/EAST/east_icdar2015_resnet_v1_50_rbox/  --output_dir=/content/EAST/tmp/output/
 ```
+
 
 a text file will be then written to the output path.
 **Note: with current code right test results will only come on GPU based enviornment, so make sure you run eval.py on GPU**
