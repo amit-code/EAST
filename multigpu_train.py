@@ -15,6 +15,7 @@ tf.app.flags.DEFINE_boolean('restore', True, 'whether to resotre from checkpoint
 tf.app.flags.DEFINE_integer('save_checkpoint_steps', 200, '')
 tf.app.flags.DEFINE_integer('save_summary_steps', 100, '')
 tf.app.flags.DEFINE_string('pretrained_model_path', '/content/EAST/data/resnet_v1_50.ckpt', '')
+tf.app.flags.DEFINE_string('save_checkpoint_steps_to_drive', '/content/drive/My Drive/dataset/east/','')
 
 import model
 import icdar
@@ -167,7 +168,7 @@ def main(argv=None):
                     step, ml, tl, avg_time_per_step, avg_examples_per_second))
 
             if step % FLAGS.save_checkpoint_steps == 0:
-                saver.save(sess, FLAGS.checkpoint_path + 'model.ckpt', global_step=global_step)
+                saver.save(sess, FLAGS.save_checkpoint_steps_to_drive + 'model.ckpt', global_step=global_step)
 
             if step % FLAGS.save_summary_steps == 0:
                 _, tl, summary_str = sess.run([train_op, total_loss, summary_op], feed_dict={input_images: data[0],
