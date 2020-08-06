@@ -35,7 +35,7 @@ If you want to train the model, you should provide the dataset path, in the data
 and run
 
 ```
-python3 multigpu_train.py --gpu_list=0 --input_size=512 --batch_size_per_gpu=8 --checkpoint_path=/content/EAST/tmp/east_icdar2015_resnet_v1_50_rbox/ --text_scale=512 --training_data_path=/content/EAST/data/sroie_train/ --geometry=RBOX --learning_rate=0.0001 --num_readers=4 --pretrained_model_path=/content/EAST/data/resnet_v1_50.ckpt
+python multigpu_train.py --gpu_list=0 --input_size=512 --batch_size_per_gpu=8 --checkpoint_path=/content/EAST/tmp/east_icdar2015_resnet_v1_50_rbox/ --text_scale=512 --training_data_path=/content/EAST/data/sroie_train/ --geometry=RBOX --learning_rate=0.0001 --num_readers=4 --pretrained_model_path=/content/EAST/data/resnet_v1_50.ckpt
 ```
 
 
@@ -63,8 +63,6 @@ Here are some test examples on icdar2015, enjoy the beautiful text boxes!
 ![image_1](demo_images/img_2.jpg)
 ![image_2](demo_images/img_10.jpg)
 ![image_3](demo_images/img_14.jpg)
-![image_4](demo_images/img_26.jpg)
-![image_5](demo_images/img_75.jpg)
 
 ### Troubleshooting
 + How to compile lanms on Windows ?
