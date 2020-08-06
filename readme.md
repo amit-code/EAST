@@ -3,10 +3,6 @@
 ### Introduction
 This is a tensorflow re-implementation of [EAST: An Efficient and Accurate Scene Text Detector](https://arxiv.org/abs/1704.03155v2).
 The features are summarized blow:
-+ Online demo
-	+ http://east.zxytim.com/
-	+ Result example: http://east.zxytim.com/?r=48e5020a-7b7f-11e7-b776-f23c91e0703e
-	+ CAVEAT: There's only one cpu core on the demo server. Simultaneous access will degrade response time.
 + Only **RBOX** part is implemented.
 + A fast Locality-Aware NMS in C++ provided by the paper's author.
 + The pre-trained model provided achieves **80.83** F1-score on ICDAR 2015
@@ -51,29 +47,17 @@ If you want to train the model, you should provide the dataset path, in the data
 and run
 
 ```
-python multigpu_train.py --gpu_list=0 --input_size=512 --batch_size_per_gpu=8 --checkpoint_path=/tmp/east_icdar2015_resnet_v1_50_rbox/ \
---text_scale=512 --training_data_path=/data/ocr/icdar2015/ --geometry=RBOX --learning_rate=0.0001 --num_readers=4 \
---pretrained_model_path=/tmp/resnet_v1_50.ckpt
+python3 multigpu_train.py --gpu_list=0 --input_size=512 --batch_size_per_gpu=8 --checkpoint_path=/content/EAST/tmp/east_icdar2015_resnet_v1_50_rbox/ --text_scale=512 --training_data_path=/content/EAST/data/sroie_train/ --geometry=RBOX --learning_rate=0.0001 --num_readers=4 --pretrained_model_path=/content/EAST/data/resnet_v1_50.ckpt
 ```
+
 
 If you have more than one gpu, you can pass gpu ids to gpu_list(like --gpu_list=0,1,2,3)
 
 **Note: you should change the gt text file of icdar2015's filename to img_\*.txt instead of gt_img_\*.txt(or you can change the code in icdar.py), and some extra characters should be removed from the file.
 See the examples in training_samples/**
 
-### Demo
-If you've downloaded the pre-trained model, you can setup a demo server by
-```
-python3 run_demo_server.py --checkpoint-path /tmp/east_icdar2015_resnet_v1_50_rbox/
-```
-Then open http://localhost:8769 for the web demo. Notice that the URL will change after you submitted an image.
-Something like `?r=49647854-7ac2-11e7-8bb7-80000210fe80` appends and that makes the URL persistent.
-As long as you are not deleting data in `static/results`, you can share your results to your friends using
-the same URL.
-
-URL for example below: http://east.zxytim.com/?r=48e5020a-7b7f-11e7-b776-f23c91e0703e
-![web-demo](demo_images/web-demo.png)
-
+**This executable line is updated with reduced num_readers and batch_size_per_gpu, and code is running on top of pre-trained checkpoints. 
+   Update current checkpoint file path in 'checkpoint' file in east_icdar2015_resnet_v1_50_rbox folder**
 
 ### Test
 run
@@ -83,6 +67,7 @@ python eval.py --test_data_path=/tmp/images/ --gpu_list=0 --checkpoint_path=/tmp
 ```
 
 a text file will be then written to the output path.
+**Note: with current code right test results will only come on GPU based enviornment, so make sure you run eval.py on GPU**
 
 
 ### Examples
