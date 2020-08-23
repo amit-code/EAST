@@ -61,19 +61,19 @@ a text file will be then written to the output path.
 Open the x64 or x32 Visual Studio developer command prompt (or Native Tools Command Prompt) in Windows 10 and use the following command to generate the adaptor.pyd file:
 first cd into lanms folder to execute below command in command prompt,
 
-
+```
 cl adaptor.cpp ./include/clipper/clipper.cpp /I ./include /I "C:\Python36\include" /LD /Fe:adaptor.pyd /link/LIBPATH:"C:\Python36\libs"
-
+```
 This will generate required files for Windows execution/testing
 
 
 
 **Note** please make sure you comment some code in __init__.py in lanms folder
 comment line 7 and 8
-
+```
 if subprocess.call(['make', '-C', BASE_DIR]) != 0:  # return value
     raise RuntimeError('Cannot compile lanms: {}'.format(BASE_DIR))
-
+```
 
 
 
